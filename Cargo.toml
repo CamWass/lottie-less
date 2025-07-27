@@ -4,4 +4,4 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
-serde_json = { version = "1.0.141", features = ["preserve_order", "arbitrary_precision"] }
+serde_json = { version = "1.0.141", features = ["preserve_order"] }
