@@ -1,12 +1,18 @@
 use std::env;
 use std::fs;
 
+use serde::ser::Serialize;
+use serde_json::Serializer;
 use serde_json::Value;
 
-pub mod passes;
+use crate::formatter::CustomFormatter;
+
+mod formatter;
+mod passes;
 
 const PRETTY_PRINT: bool = true;
 const PRECISION: u8 = 7;
+const MINIFY_NUMBERS: bool = true;
 
 fn main() {
     let args: Vec<String> = env::args().collect();
@@ -22,11 +28,21 @@ fn main() {
 
     passes::round_numbers::round_numbers(&mut json, PRECISION);
 
-    let result = if PRETTY_PRINT {
-        serde_json::to_string_pretty(&json).expect("failed to write json to string")
-    } else {
-        json.to_string()
-    };
+    let result = print(&json);
 
     fs::write(output_file_name, &result).expect("failed to write file");
+}
+
+fn print(value: &Value) -> Vec<u8> {
+    let formatter = CustomFormatter::new(PRETTY_PRINT, MINIFY_NUMBERS);
+
+    let mut result = Vec::new();
+
+    let mut serializer = Serializer::with_formatter(&mut result, formatter);
+
+    value
+        .serialize(&mut serializer)
+        .expect("failed to write json to string");
+
+    result
 }
