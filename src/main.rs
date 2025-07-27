@@ -5,6 +5,8 @@ use serde_json::Value;
 
 pub mod passes;
 
+const PRETTY_PRINT: bool = false;
+
 fn main() {
     let args: Vec<String> = env::args().collect();
 
@@ -17,7 +19,11 @@ fn main() {
 
     passes::remove_names::remove_names(&mut json);
 
-    let result = json.to_string();
+    let result = if PRETTY_PRINT {
+        serde_json::to_string_pretty(&json).expect("failed to write json to string")
+    } else {
+        json.to_string()
+    };
 
     fs::write(output_file_name, &result).expect("failed to write file");
 }
