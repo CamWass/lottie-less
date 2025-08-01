@@ -1,8 +1,4 @@
-[package]
-name = "lottie_less"
-version = "0.1.0"
-edition = "2024"
-
-[dependencies]
-serde = "1.0.219"
-serde_json = { version = "1.0.141", features = ["preserve_order"] }
+[workspace]
+members = [
+    "crates/*",
+]

@@ -1,6 +1,3 @@
-use std::env;
-use std::fs;
-
 use serde::ser::Serialize;
 use serde_json::Serializer;
 use serde_json::Value;
@@ -14,23 +11,14 @@ const PRETTY_PRINT: bool = true;
 const PRECISION: u8 = 7;
 const MINIFY_NUMBERS: bool = true;
 
-fn main() {
-    let args: Vec<String> = env::args().collect();
-
-    let input_file_name = args[1].as_str();
-    let output_file_name = args[2].as_str();
-
-    let file = fs::read_to_string(input_file_name).expect("failed to read file");
-
-    let mut json: Value = serde_json::from_str(&file).expect("failed to parse json");
+pub fn process(input: &str) -> Vec<u8> {
+    let mut json: Value = serde_json::from_str(input).expect("failed to parse json");
 
     passes::remove_names::remove_names(&mut json);
 
     passes::round_numbers::round_numbers(&mut json, PRECISION);
 
-    let result = print(&json);
-
-    fs::write(output_file_name, &result).expect("failed to write file");
+    print(&json)
 }
 
 fn print(value: &Value) -> Vec<u8> {
