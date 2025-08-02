@@ -4,7 +4,33 @@
     <meta charset="utf-8" />
     <title>Lottie less</title>
   </head>
+
   <body>
+    <div style="display: flex; gap: 1rem">
+      <div class="panel">
+        <p>Input</p>
+        <textarea id="input"></textarea>
+      </div>
+      <div class="panel">
+        <p>Output</p>
+        <textarea id="output" disabled></textarea>
+      </div>
+    </div>
+
+    <style>
+      textarea {
+        width: 100%;
+        min-height: 500px;
+        resize: vertical;
+      }
+
+      .panel {
+        display: flex;
+        flex-grow: 1;
+        flex-direction: column;
+      }
+    </style>
+
     <script src="./bootstrap.js"></script>
   </body>
 </html>
