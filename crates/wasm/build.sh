@@ -1,1 +1,1 @@
-cargo wasm-pack build --target web --out-dir www/wasm
+wasm-pack build --target web --out-dir www/wasm --no-pack
