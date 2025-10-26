@@ -45,7 +45,7 @@ jobs:
           cd crates/wasm
           npm ci
           wasm-pack build --target web --out-dir www/wasm --no-pack --release
-          npx vite build www
+          npx vite build
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v4
