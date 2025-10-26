@@ -2,8 +2,8 @@ import init, { process_json, WasmConfig } from "./wasm/wasm.js";
 
 await init();
 
-const input = document.getElementById("input");
-const output = document.getElementById("output");
+const input = document.getElementById("input") as HTMLInputElement;
+const output = document.getElementById("output") as HTMLInputElement;
 
 const DEFAULT_INPUT_VALUE = `{
   "foo": 1,
@@ -20,9 +20,33 @@ const DEFAULT_INPUT_VALUE = `{
 
 input.value = DEFAULT_INPUT_VALUE;
 
+interface Input {
+  label: string;
+  type: string;
+  value: unknown;
+}
+
+interface ToggleableInput<T> extends Input {
+  value: T | undefined;
+  enabled: boolean;
+}
+
+interface BooleanInput extends Input {
+  type: "boolean";
+  value: boolean;
+}
+
+interface RangeInput extends ToggleableInput<number> {
+  type: "range";
+  min: number;
+  max: number;
+}
+
+type ConfigInput = BooleanInput | RangeInput;
+
 // Order of keys should match order of the arguments to the config class
 // constructor.
-const configInputs = {
+const configInputs: Record<string, ConfigInput> = {
   pretty_print: {
     label: "Pretty print",
     type: "boolean",
@@ -45,12 +69,12 @@ const configInputs = {
 
 function run() {
   try {
-    const wasmConfig = new WasmConfig(
-      ...Object.values(configInputs).map((v) => {
-        const enabled = v.enabled === undefined || v.enabled === true;
-        return enabled ? v.value : undefined;
-      })
-    );
+    const args = Object.values(configInputs).map((v) => {
+      const enabled = !("enabled" in v) || v.enabled === true;
+      return enabled ? v.value : undefined;
+    }) as ConstructorParameters<typeof WasmConfig>;
+
+    const wasmConfig = new WasmConfig(...args);
 
     output.value = process_json(input.value, wasmConfig);
   } catch (e) {
@@ -59,7 +83,7 @@ function run() {
   }
 }
 
-const configContainer = document.getElementById("config");
+const configContainer = document.getElementById("config")!;
 
 for (const [key, value] of Object.entries(configInputs)) {
   switch (value.type) {
@@ -102,8 +126,8 @@ for (const [key, value] of Object.entries(configInputs)) {
 
       const input = document.createElement("input");
       input.type = "range";
-      input.min = value.min;
-      input.max = value.max;
+      input.min = `${value.min}`;
+      input.max = `${value.max}`;
       input.value = `${value.value}`;
       input.style.display = value.enabled ? "flex" : "none";
       input.addEventListener("input", () => {
