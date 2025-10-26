@@ -32,9 +32,6 @@ jobs:
 
       - name: Install wasm-pack
         run: curl https://drager.github.io/wasm-pack/installer/init.sh -sSf | bash
-        
-      - name: Change to wasm dir
-        run: cd crates/wasm
 
       - name: Setup node
         uses: actions/setup-node@v6
@@ -45,6 +42,7 @@ jobs:
 
       - name: Build assets
         run: |
+          cd crates/wasm
           wasm-pack build --target web --out-dir www/wasm --no-pack --release
           npx vite build www
 
