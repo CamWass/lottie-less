@@ -29,12 +29,11 @@ jobs:
         id: pages
         uses: actions/configure-pages@v5
       - name: Install wasm-pack
-        run: curl https://drager.github.io/wasm-pack/installer/init.sh -sSf | sh
+        run: curl https://drager.github.io/wasm-pack/installer/init.sh -sSf | bash
       - name: Build assets
         run: |
           cd crates/wasm
           wasm-pack build --target web --out-dir www/wasm --no-pack --release
-        shell: bash
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v4
