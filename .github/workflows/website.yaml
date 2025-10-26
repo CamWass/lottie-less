@@ -43,6 +43,7 @@ jobs:
       - name: Build assets
         run: |
           cd crates/wasm
+          npm ci
           wasm-pack build --target web --out-dir www/wasm --no-pack --release
           npx vite build www
 
