@@ -8,7 +8,6 @@ mod formatter;
 mod passes;
 
 const DEFAULT_PRETTY_PRINT: bool = true;
-const DEFAULT_PRECISION: u8 = 7;
 const DEFAULT_MINIFY_NUMBERS: bool = true;
 
 #[derive(Copy, Clone, Default)]
@@ -20,14 +19,15 @@ pub struct Config {
 
 pub fn process(input: &str, config: Config) -> Vec<u8> {
     let pretty_print = config.pretty_print.unwrap_or(DEFAULT_PRETTY_PRINT);
-    let precision = config.precision.unwrap_or(DEFAULT_PRECISION);
     let minify_numbers = config.minify_numbers.unwrap_or(DEFAULT_MINIFY_NUMBERS);
 
     let mut json: Value = serde_json::from_str(input).expect("failed to parse json");
 
     passes::remove_names::remove_names(&mut json);
 
-    passes::round_numbers::round_numbers(&mut json, precision);
+    if let Some(precision) = config.precision {
+        passes::round_numbers::round_numbers(&mut json, precision);
+    }
 
     print(&json, pretty_print, minify_numbers)
 }
