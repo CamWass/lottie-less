@@ -82,7 +82,6 @@ for (const [key, value] of Object.entries(configInputs)) {
       enableToggle.checked = value.enabled;
       enableToggle.addEventListener("input", () => {
         value.enabled = enableToggle.checked;
-        value.value = enableToggle.checked ? value.value : undefined;
         input.style.display = enableToggle.checked ? "flex" : "none";
         run();
       });
