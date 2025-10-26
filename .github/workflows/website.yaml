@@ -25,20 +25,32 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v5
+        
       - name: Setup Pages
         id: pages
         uses: actions/configure-pages@v5
+
       - name: Install wasm-pack
         run: curl https://drager.github.io/wasm-pack/installer/init.sh -sSf | bash
+        
+      - name: Change to wasm dir
+        run: cd crates/wasm
+
+      - name: Setup node
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+        cache: npm
+
       - name: Build assets
         run: |
-          cd crates/wasm
           wasm-pack build --target web --out-dir www/wasm --no-pack --release
+          npx vite build www
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v4
         with:
-          path: crates/wasm/www
+          path: crates/wasm/www/dist
 
   deploy:
     environment:
