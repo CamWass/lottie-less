@@ -5,7 +5,7 @@ await init();
 const input = document.getElementById("input");
 const output = document.getElementById("output");
 
-input.value = `{
+const DEFAULT_INPUT_VALUE = `{
   "foo": 1,
   "nm": "banana",
   "bar": "2",
@@ -18,6 +18,10 @@ input.value = `{
 }
 `;
 
+input.value = DEFAULT_INPUT_VALUE;
+
+// Order of keys should match order of the arguments to the config class
+// constructor.
 const configInputs = {
   pretty_print: {
     label: "Pretty print",
@@ -38,6 +42,22 @@ const configInputs = {
     value: false,
   },
 };
+
+function run() {
+  try {
+    const wasmConfig = new WasmConfig(
+      ...Object.values(configInputs).map((v) => {
+        const enabled = v.enabled === undefined || v.enabled === true;
+        return enabled ? v.value : undefined;
+      })
+    );
+
+    output.value = process_json(input.value, wasmConfig);
+  } catch (e) {
+    console.error(e);
+    output.value = "Invalid input";
+  }
+}
 
 const configContainer = document.getElementById("config");
 
@@ -109,22 +129,6 @@ for (const [key, value] of Object.entries(configInputs)) {
 
       break;
     }
-  }
-}
-
-function run() {
-  try {
-    const wasmConfig = new WasmConfig(
-      ...Object.values(configInputs).map((v) => {
-        const enabled = v.enabled === undefined || v.enabled === true;
-        return enabled ? v.value : undefined;
-      })
-    );
-
-    output.value = process_json(input.value, wasmConfig);
-  } catch (e) {
-    console.error(e);
-    output.value = "Invalid input";
   }
 }
 
