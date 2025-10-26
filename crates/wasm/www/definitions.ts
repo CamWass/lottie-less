@@ -6,7 +6,7 @@ export const DEFAULT_INPUT_VALUE = `{
       "nm": "apple"
     },
     "array": [{ "nm": "pear" }],
-    "roundMe": 0.123456789999999999,
+    "roundMe": 0.1234567899999,
     "minifyUs": [
       1000000000000,
       12300000,
