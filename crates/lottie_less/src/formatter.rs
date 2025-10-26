@@ -89,6 +89,8 @@ impl<'a> Formatter for CustomFormatter<'a> {
             b"\n"
         } else if self.pretty {
             b",\n"
+        } else if first {
+            b""
         } else {
             b","
         }));
@@ -138,6 +140,8 @@ impl<'a> Formatter for CustomFormatter<'a> {
             b"\n"
         } else if self.pretty {
             b",\n"
+        } else if first {
+            b""
         } else {
             b","
         }));
