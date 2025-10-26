@@ -21,6 +21,8 @@
           <div class="background"></div>
         </div>
       </div>
+
+      <div id="config"></div>
     </div>
 
     <style>
@@ -55,7 +57,7 @@
 
       textarea {
         resize: vertical;
-        min-height: 500px;
+        min-height: 300px;
         width: 100%;
         flex-grow: 1;
       }
@@ -79,6 +81,26 @@
       body {
         background-color: #180161;
         display: flex;
+      }
+
+      #config {
+        display: flex;
+        flex-direction: column;
+        background-color: white;
+        padding: 1rem;
+        gap: 1rem;
+      }
+
+      .config-input-container {
+        display: flex;
+        justify-content: space-between;
+        gap: 1rem;
+      }
+
+      .config-toggleable-input-container {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
       }
     </style>
 
