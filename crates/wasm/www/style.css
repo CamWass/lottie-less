@@ -40,7 +40,7 @@ textarea {
   flex-grow: 1;
 }
 
-.input-container .background {
+.background {
   height: 100%;
   width: 100%;
   background-color: #eb3678;
@@ -53,6 +53,11 @@ textarea {
 body {
   background-color: #180161;
   display: flex;
+}
+
+.config-container {
+  margin: 1rem;
+  min-width: 200px;
 }
 
 #config {
