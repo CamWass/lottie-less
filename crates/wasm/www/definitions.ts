@@ -61,6 +61,6 @@ export const configInputs: Record<string, ConfigInput> = {
   minify_numbers: {
     label: "Minify numbers",
     type: "boolean",
-    value: false,
+    value: true,
   },
 };
