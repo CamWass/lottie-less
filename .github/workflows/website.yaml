@@ -34,6 +34,7 @@ jobs:
         run: |
           cd crates/wasm
           wasm-pack build --target web --out-dir www/wasm --no-pack --release
+        shell: bash
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v4
