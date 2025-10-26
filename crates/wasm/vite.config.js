@@ -2,4 +2,7 @@
 export default {
   root: "www",
   base: "",
+  build: {
+    sourcemap: true,
+  },
 };
