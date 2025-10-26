@@ -1,4 +1,4 @@
-import init, { process_json } from "./wasm/wasm.js";
+import init, { process_json, WasmConfig } from "./wasm/wasm.js";
 
 await init();
 
@@ -7,8 +7,10 @@ const output = document.getElementById("output");
 
 input.addEventListener("input", () => {
   try {
-    output.value = process_json(input.value);
-  } catch {
+    const config = new WasmConfig(false, 1, true);
+    output.value = process_json(input.value, config);
+  } catch (e) {
+    console.error(e);
     output.value = "Invalid input";
   }
 });

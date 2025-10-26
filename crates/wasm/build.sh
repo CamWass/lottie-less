@@ -1,1 +1,1 @@
-wasm-pack build --target web --out-dir www/wasm --no-pack
+wasm-pack build --target web --out-dir www/wasm --no-pack --debug
